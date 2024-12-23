@@ -3,9 +3,19 @@ from phi.agent import Agent
 from phi.model.google import Gemini
 from phi.tools.duckduckgo import DuckDuckGo
 from google.generativeai import upload_file, get_file
+import google.generativeai as genai
 import time
 from pathlib import Path
 import tempfile
+import dotenv
+import os
+
+import logging
+logging.basicConfig(level=logging.INFO)
+logging.info("Debug information here...")
+
+dotenv.load_dotenv()
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 st.set_page_config(
     page_title="Multimodal AI Agent",
@@ -23,6 +33,7 @@ def initialize_agent():
         model=Gemini(id="gemini-2.0-flash-exp"),
         tools=[DuckDuckGo()],
         markdown=True,
+        verbose=True,
     )
 
 agent = initialize_agent()
